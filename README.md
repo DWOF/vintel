@@ -16,7 +16,7 @@ Visual intel chat analysis, planning and notification application for [EVE Onlin
 Vintel is written with Python 2.7, using PyQt4 for the application presentation layer, BeautifulSoup4 for SVG parsing, and Pyglet for audio playback.
 
 ### News
-_The current release version of Vintel [can be found here](https://github.com/Xanthos-Eve/vintel/releases). Both Mac and Windows distributions are now available for download with this release._
+_The current release version of Vintel [can be found here](https://github.com/Who-Dares-Wins/vintel/releases). Both Mac and Windows distributions are now available for download with this release._
 
 Keep up on the latest at the [wiki](https://github.com/Xanthos-Eve/vintel/wiki) or visit our [issues](https://github.com/Xanthos-Eve/vintel/issues) page to see what bugs and features are in the queue.
 
