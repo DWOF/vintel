@@ -285,8 +285,8 @@ class System(object):
         A System on the Map
     """
 
-    ALARM_COLORS = [(60 * 4, "#FF0000", "#FFFFFF"), (60 * 10, "#b06c0c", "#FFFFFF"), (60 * 15, "#b5b20b", "#000000"),
-                    (60 * 25, "#63633f", "#000000"), (60 * 60 * 24, "#000000", "#000000")]
+    ALARM_COLORS = [(60 * 4, "#FF0000", "#FFFFFF"), (60 * 10, "#b06c0c", "#FFFFFF"), (60 * 15, "#b5b20b", "#FFFFFF"),
+                    (60 * 25, "#63633f", "#FFFFFF"), (60 * 60 * 24, "#000000", "#FFFFFF")]
     ALARM_COLOR = ALARM_COLORS[0][1]
     UNKNOWN_COLOR = "#000000"
     CLEAR_COLOR = "#000000"
@@ -433,16 +433,16 @@ class System(object):
             if "stopwatch" not in self.secondLine["class"]:
                 self.secondLine["class"].append("stopwatch")
             self.secondLine["alarmtime"] = self.lastAlarmTime
-            self.secondLine["style"] = "fill: #000000;"
+            self.secondLine["style"] = "fill: #FFFFFF;"
             self.secondLine.string = "clear"
         elif newStatus == states.WAS_ALARMED:
             self.setBackgroundColor(self.UNKNOWN_COLOR)
-            self.secondLine["style"] = "fill: #000000;"
+            self.secondLine["style"] = "fill: #FFFFFF;"
         elif newStatus == states.UNKNOWN:
             self.setBackgroundColor(self.UNKNOWN_COLOR)
             # second line in the rects is reserved for the clock
             self.secondLine.string = "?"
-            self.secondLine["style"] = "fill: #000000;"
+            self.secondLine["style"] = "fill: #FFFFFF;"
         if newStatus not in (states.NOT_CHANGE, states.REQUEST):  # unknown not affect system status
             self.status = newStatus
 
@@ -472,14 +472,6 @@ class System(object):
             minutes = int(math.floor(diff / 60))
             seconds = int(diff - minutes * 60)
             string = "{m:02d}:{s:02d}".format(m=minutes, s=seconds)
-            if self.status == states.CLEAR:
-                secondsUntilWhite = 10 * 60
-                calcValue = int(diff / (secondsUntilWhite / 255.0))
-                if calcValue > 255:
-                    calcValue = 255
-                    self.secondLine["style"] = "fill: #008100;"
-                string = "clr: {m:02d}:{s:02d}".format(m=minutes, s=seconds)
-                self.setBackgroundColor("rgb({r},{g},{b})".format(r=calcValue, g=255, b=calcValue))
             self.secondLine.string = string
 
 
