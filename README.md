@@ -22,7 +22,7 @@ Keep up on the latest at the [wiki](https://github.com/Xanthos-Eve/vintel/wiki) 
 
 ## Screenshot
 
-![](https://github.com/Who-Dares-Wins/vintel/blob/master/src/docs/screenshot.png)
+![](src/docs/screenshot.png)
 
 ## Features
 
