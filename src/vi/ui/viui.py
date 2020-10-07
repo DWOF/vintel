@@ -38,6 +38,7 @@ from vi import states
 from vi.cache.cache import Cache
 from vi.resources import resourcePath
 from vi.soundmanager import SoundManager
+from vi.PanningWebView import PanningWebView
 from vi.threads import AvatarFindThread, KOSCheckerThread, MapStatisticsThread
 from vi.ui.systemtray import TrayContextMenu
 from vi.chatparser import ChatParser
@@ -90,7 +91,7 @@ class MainWindow(QtGui.QMainWindow):
             self.knownPlayerNames = set(self.knownPlayerNames.split(","))
         else:
             self.knownPlayerNames = set()
-            diagText = "Vintel scans EVE system logs and remembers your characters as they change systems.\n\nSome features (clipboard KOS checking, alarms, etc.) may not work until your character(s) have been registered. Change systems, with each character you want to monitor, while Vintel is running to remedy this."
+            diagText = "Vintel scans EVE system logs and remembers your characters as they change systems.\n\nSome features (character location, alarms, etc.) may not work until your character(s) have been detected by the system. Change systems, with each character you want to monitor, while Vintel is running to remedy this."
             QMessageBox.warning(None, "Known Characters not Found", diagText, "Ok")
 
         # Set up user's intel rooms
@@ -98,7 +99,7 @@ class MainWindow(QtGui.QMainWindow):
         if roomnames:
             roomnames = roomnames.split(",")
         else:
-            roomnames = (u"TheCitadel", u"North Provi Intel", u"North Catch Intel", "North Querious Intel")
+            roomnames = (u"RC.Provi.Intel", "")
             self.cache.putIntoCache("room_names", u",".join(roomnames), 60 * 60 * 24 * 365 * 5)
         self.roomnames = roomnames
 
@@ -411,9 +412,9 @@ class MainWindow(QtGui.QMainWindow):
             self.activateSoundAction.setEnabled(False)
             self.soundSetupAction.setEnabled(False)
             #self.soundButton.setEnabled(False)
-            QMessageBox.warning(None, "Sound disabled",
-                                      "The lib 'pyglet' which is used to play sounds cannot be found, ""so the soundsystem is disabled.\nIf you want sound, please install the 'pyglet' library. This warning will not be shown again.",
-                                      "OK")
+            # QMessageBox.warning(None, "Sound disabled",
+            #                           "The lib 'pyglet' which is used to play sounds cannot be found, ""so the soundsystem is disabled.\nIf you want sound, please install the 'pyglet' library. This warning will not be shown again.",
+            #                           "OK")
         else:
             if newValue is None:
                 newValue = self.activateSoundAction.isChecked()

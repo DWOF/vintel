@@ -19,10 +19,12 @@
 ###########################################################################
 
 import sys
+import qdarkgraystyle
 import os
 import logging
 import traceback
 
+from os.path import expanduser
 from logging.handlers import RotatingFileHandler
 from logging import StreamHandler
 
@@ -34,6 +36,7 @@ from vi.resources import resourcePath
 from vi.cache.cache import Cache
 from PyQt4.QtGui import QApplication, QMessageBox
 
+os.environ['QT_API'] = 'pyqt4'
 
 def exceptHook(exceptionType, exceptionValue, tracebackObject):
     """
@@ -70,10 +73,7 @@ class Application(QApplication):
             elif sys.platform.startswith("linux"):
                 chatLogDirectory = os.path.join(os.path.expanduser("~"), "EVE", "logs", "Chatlogs")
             elif sys.platform.startswith("win32") or sys.platform.startswith("cygwin"):
-                import ctypes.wintypes
-                buf = ctypes.create_unicode_buffer(ctypes.wintypes.MAX_PATH)
-                ctypes.windll.shell32.SHGetFolderPathW(0, 5, 0, 0, buf)
-                documentsPath = buf.value
+                documentsPath = os.path.join(os.path.expanduser('~'),'Documents')
                 chatLogDirectory = os.path.join(documentsPath, "EVE", "logs", "Chatlogs")
         if not os.path.exists(chatLogDirectory):
             # None of the paths for logs exist, bailing out
@@ -136,5 +136,5 @@ class Application(QApplication):
 if __name__ == "__main__":
 
     app = Application(sys.argv)
+    app.setStyleSheet(qdarkgraystyle.load_stylesheet(pyside=False))
     sys.exit(app.exec_())
-
