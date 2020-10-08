@@ -29,20 +29,10 @@ from collections import namedtuple
 from PyQt4.QtCore import QThread
 from .resources import resourcePath
 from six.moves import queue
+from playsound import playsound
 
 import logging
 from vi.singleton import Singleton
-
-global gPygletAvailable
-
-try:
-    import pyglet
-    from pyglet import media
-
-    gPygletAvailable = True
-except ImportError:
-    gPygletAvailable = False
-
 
 class SoundManager(six.with_metaclass(Singleton)):
     SOUNDS = {"alarm": "178032__zimbot__redalert-klaxon-sttos-recreated.wav",
@@ -65,7 +55,7 @@ class SoundManager(six.with_metaclass(Singleton)):
             self._soundThread.start()
 
     def platformSupportsAudio(self):
-        return self.platformSupportsSpeech() or gPygletAvailable
+        return True
 
     def platformSupportsSpeech(self):
         if self._soundThread.isDarwin:
@@ -113,10 +103,6 @@ class SoundManager(six.with_metaclass(Singleton)):
         def __init__(self):
             QThread.__init__(self)
             self.queue = queue.Queue()
-            if gPygletAvailable:
-                self.player = media.Player()
-            else:
-                self.player = None
             self.active = True
 
 
@@ -166,17 +152,7 @@ class SoundManager(six.with_metaclass(Singleton)):
         # Audio subsytem access
 
         def playAudioFile(self, filename, stream=False):
-            try:
-                volume = float(self.volume) / 100.0
-                if self.player:
-                    src = media.load(filename, streaming=stream)
-                    self.player.queue(src)
-                    self.player.volume = volume
-                    self.player.play()
-                elif self.isDarwin:
-                    subprocess.call(["afplay -v {0} {1}".format(volume, filename)], shell=True)
-            except Exception as e:
-                logging.error("SoundThread.playAudioFile exception: %s", e)
+            playsound(filename, False)
 
         def darwinSpeak(self, message):
             try:

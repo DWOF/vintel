@@ -279,7 +279,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>19</height>
+                <height>22</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -295,7 +295,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>19</height>
+                <height>22</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -451,7 +451,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Select chat channels</string>
+    <string>Select Channels...</string>
    </property>
   </action>
   <action name="showChatAvatarsAction">

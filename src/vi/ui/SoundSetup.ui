@@ -31,9 +31,28 @@
          </rect>
         </property>
         <property name="text">
-         <string>Testsound</string>
+         <string>Test Sound</string>
         </property>
        </widget>
+       <widget class="QLabel" name="label">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>90</y>
+          <width>103</width>
+          <height>103</height>
+         </rect>
+        </property>
+        <property name="text">
+          <string>Volume does nothing currently. Please use your OS volume mixer to attenuate the volume of Vintel, or you'll go deaf when an alarm goes off.</string>
+        </property>
+        <property name="textFormat">
+          <enum>Qt::PlainText</enum>
+        </property>
+        <property name="wordWrap">
+          <bool>true</bool>
+        </property>
+      </widget>
        <widget class="QPushButton" name="closeButton">
         <property name="geometry">
          <rect>
