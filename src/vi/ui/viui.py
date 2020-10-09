@@ -802,7 +802,7 @@ class ChatroomsChooser(QtGui.QDialog):
         cache = Cache()
         roomnames = cache.getFromCache("room_names")
         if not roomnames:
-            roomnames = u"TheCitadel,North Provi Intel,North Catch Intel,North Querious Intel"
+            roomnames = u"RC.Provi.Intel"
         self.roomnamesField.setPlainText(roomnames)
 
 
@@ -814,7 +814,7 @@ class ChatroomsChooser(QtGui.QDialog):
 
 
     def setDefaults(self):
-        self.roomnamesField.setPlainText(u"TheCitadel,North Provi Intel,North Catch Intel,North Querious Intel")
+        self.roomnamesField.setPlainText(u"RC.Provi.Intel")
 
 
 class RegionChooser(QtGui.QDialog):
