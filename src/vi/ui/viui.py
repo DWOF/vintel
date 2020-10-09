@@ -280,6 +280,11 @@ class MainWindow(QtGui.QMainWindow):
         self.jumpbridgesButton.setChecked(False)
         self.statisticsButton.setChecked(False)
 
+        # Temporarily disable broken features
+        self.jumpbridgesButton.setEnabled(False)
+        self.statisticsButton.setEnabled(False)
+        self.jumpbridgeDataAction.setEnabled(False)
+
         # Update the new map view, then clear old statistics from the map and request new
         logging.critical("Updating the map")
         self.updateMapView()
