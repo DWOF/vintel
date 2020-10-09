@@ -39,7 +39,7 @@ from vi.cache.cache import Cache
 from vi.resources import resourcePath
 from vi.soundmanager import SoundManager
 from vi.PanningWebView import PanningWebView
-from vi.threads import AvatarFindThread, KOSCheckerThread, MapStatisticsThread
+from vi.threads import AvatarFindThread, MapStatisticsThread
 from vi.ui.systemtray import TrayContextMenu
 from vi.chatparser import ChatParser
 from PyQt4.QtGui import QAction
@@ -156,9 +156,6 @@ class MainWindow(QtGui.QMainWindow):
 
     def wireUpUIConnections(self):
         # Wire up general UI connections
-        self.connect(self.clipboard, SIGNAL("changed(QClipboard::Mode)"), self.clipboardChanged)
-        self.connect(self.autoScanIntelAction, SIGNAL("triggered()"), self.changeAutoScanIntel)
-        self.connect(self.kosClipboardActiveAction, SIGNAL("triggered()"), self.changeKosCheckClipboard)
         self.connect(self.zoomInButton, SIGNAL("clicked()"), self.zoomMapIn)
         self.connect(self.zoomOutButton, SIGNAL("clicked()"), self.zoomMapOut)
         self.connect(self.statisticsButton, SIGNAL("clicked()"), self.changeStatisticsVisibility)
@@ -194,10 +191,6 @@ class MainWindow(QtGui.QMainWindow):
         self.avatarFindThread = AvatarFindThread()
         self.connect(self.avatarFindThread, SIGNAL("avatar_update"), self.updateAvatarOnChatEntry)
         self.avatarFindThread.start()
-
-        self.kosRequestThread = KOSCheckerThread()
-        self.connect(self.kosRequestThread, SIGNAL("kos_result"), self.showKosResult)
-        self.kosRequestThread.start()
 
         self.filewatcherThread = filewatcher.FileWatcher(self.pathToLogs)
         self.connect(self.filewatcherThread, SIGNAL("file_change"), self.logFileChanged)
@@ -357,8 +350,6 @@ class MainWindow(QtGui.QMainWindow):
             self.avatarFindThread.wait()
             self.filewatcherThread.quit()
             self.filewatcherThread.wait()
-            self.kosRequestThread.quit()
-            self.kosRequestThread.wait()
             self.versionCheckThread.quit()
             self.versionCheckThread.wait()
             self.statisticsThread.quit()
@@ -781,15 +772,6 @@ class MainWindow(QtGui.QMainWindow):
             if message.status == states.LOCATION:
                 self.knownPlayerNames.add(message.user)
                 self.setLocation(message.user, message.systems[0])
-            elif message.status == states.KOS_STATUS_REQUEST:
-                # Do not accept KOS requests from any but monitored intel channels
-                # as we don't want to encourage the use of xxx in those channels.
-                if not message.room in self.roomnames:
-                    text = message.message[4:]
-                    text = text.replace("  ", ",")
-                    parts = (name.strip() for name in text.split(","))
-                    self.trayIcon.setIcon(self.taskbarIconWorking)
-                    self.kosRequestThread.addRequest(parts, "xxx", False)
             # Otherwise consider it a 'normal' chat message
             elif message.user not in ("EVE-System", "EVE System") and message.status != states.IGNORE:
                 self.addMessageToIntelChat(message)
